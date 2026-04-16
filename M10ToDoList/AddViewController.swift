@@ -12,14 +12,16 @@ class AddViewController: UIViewController {
     
     @IBOutlet weak var inputField: UITextField!
     
+    weak var delegate: ToDoDelegate?
+    
     @IBAction func cancel(_ sender: Any) {
+        delegate?.addViewControllerDidCancel(self)
         dismiss(animated: true)
     }
     
     @IBAction func save(_ sender: Any) {
         guard let text = inputField.text else { return }
-        listVC?.toDoList.append(text)
-        listVC?.toDoListTableView.reloadData()
+        delegate?.addViewController(self, didInsert: text)
         dismiss(animated: true)
     }
     override func viewDidLoad() {
@@ -27,16 +29,4 @@ class AddViewController: UIViewController {
 
         // Do any additional setup after loading the view.
     }
-    
-
-    /*
-    // MARK: - Navigation
-
-    // In a storyboard-based application, you will often want to do a little preparation before navigation
-    override func prepare(for segue: UIStoryboardSegue, sender: Any?) {
-        // Get the new view controller using segue.destination.
-        // Pass the selected object to the new view controller.
-    }
-    */
-
 }
